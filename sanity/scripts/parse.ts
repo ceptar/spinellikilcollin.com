@@ -3,17 +3,17 @@ import { isMatch, pick } from 'lodash'
 const createClient = require('@sanity/client')
 
 const stagingClient = createClient({
-  projectId: 'i21fjdbi',
+  projectId: 'yu09j7lk',
   dataset: 'staging',
   useCdn: false,
 })
 
 const prodClient = createClient({
-  projectId: 'i21fjdbi',
-  dataset: 'production',
+  projectId: 'yu09j7lk',
+  dataset: 'development',
   useCdn: false,
   token:
-    'skdbFzBOoxI6h4VAocAKNziCHvcnkEjutfmInbHTw3OVtbIm9E0V3G7s5TwdDEQG2LmiUDZnKRglUU5ou1tNdB6J1JwoK2sRIeDYkezLwGVo7BR36tVmwBVP7Jv59U2PRUqJ4p7HSTAFwJmiY1upDOcqi7w1Ob38eSFUmcU4tbXR9NY25JH5',
+    'skIXuHKOGE3jQera4VYcGQ9XvTjeTGrLrYLns2CdP2OnIviBz5P4mJALgLnDTZWuzKZU1991TgdI9PX11jnwkdG3I8MCTtn0zdtniumETgXqaVVM9bowLS0a8FHjTy6CrU1K5v6YIY552akpTz1QcHdMm8BSjpkq3vh4BSRo8Wbh67DpXHTx',
 })
 
 const fieldsToSync = ['gallery', 'related', 'options', 'variants', 'info']

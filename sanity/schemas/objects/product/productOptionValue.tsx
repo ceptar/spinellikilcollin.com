@@ -10,7 +10,7 @@ export const productOptionValue = defineType({
       name: 'value',
       title: 'Name',
       type: 'string',
-      readOnly: true,
+      readOnly: false,
     }),
     defineField({
       title: 'Description',

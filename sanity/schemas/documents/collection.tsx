@@ -56,7 +56,7 @@ export const collection = defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
-      hidden: true,
+      hidden: false,
     }),
     // Slug (proxy)
     defineField({
@@ -69,18 +69,18 @@ export const collection = defineType({
       name: 'archived',
       title: 'Archived?',
       type: 'boolean',
-      readOnly: true,
+      readOnly: false,
     }),
     defineField({
       name: 'shopifyId',
       title: 'Shopify ID',
       type: 'string',
-      hidden: true,
+      hidden: false,
     }),
     defineField({
       name: 'handle',
       title: 'Handle',
-      hidden: true,
+      hidden: false,
       type: 'string',
     }),
     defineField({
@@ -95,7 +95,7 @@ export const collection = defineType({
           weak: true,
         },
       ],
-      readOnly: true,
+      readOnly: false,
       group: 'editorial',
     }),
     defineField({

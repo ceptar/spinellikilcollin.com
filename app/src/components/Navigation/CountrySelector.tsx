@@ -80,7 +80,7 @@ export const CountrySelector = ({ colorTheme }: CountrySelectorProps) => {
 
   const [options, setOptions] = useState<CountryOption[]>([])
   const [country, setCountry] = useState<ShopifyStorefrontCountryCode>(
-    ShopifyStorefrontCountryCode.Us,
+    ShopifyStorefrontCountryCode,
   )
   const {
     loading,
@@ -131,10 +131,14 @@ export const CountrySelector = ({ colorTheme }: CountrySelectorProps) => {
   }, [isHighlighted])
 
   useEffect(() => {
-    const countryKey =
-      currentCountry.slice(0, 1) + currentCountry[1].toLowerCase()
-    setCountry(ShopifyStorefrontCountryCode[countryKey])
-  }, [currentCountry])
+    if (currentCountry && currentCountry.length >= 2) {
+      const countryKey = currentCountry.slice(0, 1) + currentCountry[1].toLowerCase();
+      setCountry(ShopifyStorefrontCountryCode[countryKey]);
+    } else {
+      // Handle the case where currentCountry is not valid
+      setCountry(null); // or some default value
+    }
+  }, [currentCountry]);
 
   return (
     <>

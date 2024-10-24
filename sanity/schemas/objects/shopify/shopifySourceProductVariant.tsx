@@ -95,5 +95,5 @@ export default defineType({
     //   type: 'boolean',
     // }),
   ],
-  readOnly: true,
+  readOnly: false,
 })

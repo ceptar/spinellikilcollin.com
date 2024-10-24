@@ -49,8 +49,8 @@ export const product = defineType({
       title: 'ShopifyId',
       type: 'string',
       options: {field: 'shopifyId'},
-      readOnly: true,
-      hidden: true,
+      readOnly: false,
+      hidden: false,
     }),
     // Title (proxy)
     defineField({
@@ -71,23 +71,23 @@ export const product = defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
-      hidden: true,
-      readOnly: true,
+      hidden: false,
+      readOnly: false,
     }),
     // Handle
     defineField({
       name: 'handle',
       title: 'Handle',
       type: 'string',
-      hidden: true,
-      readOnly: true,
+      hidden: false,
+      readOnly: false,
     }),
     defineField({
       name: 'hidden',
       title: 'Hidden? (deprecated)',
       type: 'boolean',
-      readOnly: true,
-      hidden: true,
+      readOnly: false,
+      hidden: false,
     }),
     defineField({
       name: 'collections',
@@ -96,7 +96,7 @@ export const product = defineType({
       type: 'array',
       of: [{type: 'reference', to: [{type: 'collection'}], weak: true}],
       group: 'shopifySync',
-      readOnly: true,
+      readOnly: false,
     }),
     defineField({
       name: 'options',
@@ -109,7 +109,7 @@ export const product = defineType({
       name: 'archived',
       title: 'Archived?',
       type: 'boolean',
-      readOnly: true,
+      readOnly: false,
       group: 'editorial',
     }),
     defineField({

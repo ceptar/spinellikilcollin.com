@@ -5,9 +5,9 @@
 			"extensions": {
 				"endpoints": {
 					"default": {
-						"url": "https://spinellikilcollin.myshopify.com/api/graphql/2022-10",
+						"url": "http://212.132.115.241:4000/graphql",
 						"headers": {
-							"X-Shopify-Storefront-Access-Token": "0d3e3d2a74d125f799cd78a72e6c0000"
+							"X-Shopify-Storefront-Access-Token": ""
 						}
 					}
 				}

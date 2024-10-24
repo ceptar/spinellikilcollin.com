@@ -21,7 +21,7 @@ export const getTypeText = (doc: any) => {
   return 'Page'
 }
 const client = createClient({
-  apiVersion: '2024-01-01',
+  apiVersion: 'v2023-08-01',
   dataset: process.env.SANITY_STUDIO_DATASET,
   projectId: process.env.SANITY_STUDIO_PROJECT_ID,
   // token: process.env.SANITY_AUTH_TOKEN, // Only if you want to update content with the client

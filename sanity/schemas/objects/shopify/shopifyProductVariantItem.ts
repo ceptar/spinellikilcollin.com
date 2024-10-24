@@ -143,5 +143,5 @@ export default defineType({
       description: 'Image displayed in both cart and checkout',
     }),
   ],
-  readOnly: true,
+  readOnly: false,
 })

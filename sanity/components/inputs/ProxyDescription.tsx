@@ -22,7 +22,7 @@ const ProxyDescriptionInput = (props: any) => {
       }
       portal
     >
-      <TextArea readOnly={true} value={proxyValue} />
+      <TextArea readOnly={false} value={proxyValue} />
     </Tooltip>
   )
 }

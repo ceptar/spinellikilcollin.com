@@ -1,7 +1,7 @@
 export const shopifySourceProductVariantLegacy = {
   title: 'Shopify Product Data',
   name: 'shopifySourceProductVariantLegacy',
-  readOnly: true,
+  readOnly: false,
   type: 'object',
   options: {
     collapsible: true,

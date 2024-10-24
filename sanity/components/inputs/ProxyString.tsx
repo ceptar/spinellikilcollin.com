@@ -24,7 +24,7 @@ const ProxyString = (props: Props) => {
       }
       portal
     >
-      <TextInput iconRight={LockIcon} readOnly={true} value={proxyValue} />
+      <TextInput iconRight={LockIcon} readOnly={false} value={proxyValue} />
     </Tooltip>
   )
 }

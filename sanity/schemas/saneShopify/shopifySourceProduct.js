@@ -4,8 +4,8 @@ export const shopifySourceProduct = defineType({
   title: 'Shopify source data',
   name: 'shopifySourceProduct',
   type: 'object',
-  hidden: true,
-  readOnly: true,
+  hidden: false,
+  readOnly: false,
   fields: [
     defineField({name: 'id', type: 'string'}),
     defineField({name: 'handle', type: 'string'}),

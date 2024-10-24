@@ -4,7 +4,7 @@ export const defaultExternalLink = {
   type: 'object',
   name: 'link',
   options: {
-    editModal: 'popover',
+    modal: 'popover',
   },
   fields: [
     {

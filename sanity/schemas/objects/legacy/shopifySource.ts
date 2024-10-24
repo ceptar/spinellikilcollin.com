@@ -148,7 +148,7 @@ export const linkedCollections = {
   options: {
     sortable: false,
   },
-  readOnly: true,
+  readOnly: false,
   of: [
     {
       type: 'reference',
@@ -167,9 +167,9 @@ export const linkedProducts = {
   description: 'Synced from Shopify',
   type: 'array',
   options: {
-    sortable: false,
+    sortable: true,
   },
-  readOnly: true,
+  readOnly: false,
   of: [
     {
       type: 'reference',

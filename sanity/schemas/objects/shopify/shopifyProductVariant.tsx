@@ -43,7 +43,7 @@ export default defineType({
     //   type: 'shopifyProductVariantStore',
     // }),
   ],
-  readOnly: true,
+  readOnly: false,
   preview: {
     select: {
       title: 'title',

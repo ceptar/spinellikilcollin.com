@@ -3,13 +3,13 @@ import {defineCliConfig} from 'sanity/cli'
 
 export default defineCliConfig({
   api: {
-    projectId: 'i21fjdbi',
-    dataset: 'production',
+    projectId: 'yu09j7lk',
+    dataset: 'development',
   },
   graphql: [
     {
-      id: 'production',
-      workspace: 'production-workspace',
+      id: 'development',
+      workspace: 'development-workspace',
       playground: true,
     },
     // {

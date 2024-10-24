@@ -11,7 +11,7 @@ export const shopifyProductOption = defineType({
       name: 'name',
       title: 'Name',
       type: 'string',
-      readOnly: true,
+      readOnly: false,
     }),
     // Values
     {
@@ -100,39 +100,39 @@ export const shopifyProduct = defineType({
       title: 'Title',
       name: 'title',
       type: 'string',
-      readOnly: true,
+      readOnly: false,
     }),
     defineField({
       title: 'Handle',
       name: 'handle',
       type: 'string',
-      readOnly: true,
+      readOnly: false,
     }),
     defineField({
       title: 'Collections',
       name: 'collections',
       type: 'array',
       of: [{type: 'reference', to: [{type: 'shopifyCollection'}]}],
-      readOnly: true,
+      readOnly: false,
     }),
     defineField({
       title: 'Product Options',
       name: 'options',
       type: 'array',
       of: [{type: 'shopifyProductOption'}],
-      readOnly: true,
+      readOnly: false,
     }),
     defineField({
       title: 'Shopify ID',
       name: 'shopifyId',
       type: 'string',
-      readOnly: true,
+      readOnly: false,
     }),
     defineField({
       title: 'Shopify source data',
       name: 'sourceData',
       type: 'shopifySourceProduct',
-      hidden: true,
+      hidden: false,
     }),
     defineField({
       name: 'minVariantPrice',
@@ -148,7 +148,7 @@ export const shopifyProduct = defineType({
       title: 'Archived?',
       name: 'archived',
       type: 'boolean',
-      readOnly: true,
+      readOnly: false,
     }),
     defineField({
       title: 'Hidden (deprecated)',

@@ -2,7 +2,7 @@ import {type DocumentActionProps, type DocumentActionDescription, type SanityDoc
 
 export default function resolveProductionUrl(props: DocumentActionProps): string {
   const readToken =
-    'sk56XjAXI9dV5P1yFoPyGIOB3c9Gb52XjGDB7YBrwO41mVRc3c4wq4Uvu8nNMWgRWxUmvHGLBozFm0U2QGcqfbYu8XrCmbzyv64wcwYOukq6fjhepAdrvgMNVtLdcVaBzapYOGMyZmnOxEtNGiMs8iQijid9aR7MMv1XYYHaqTBrfEmiVmWQ'
+    'skJYfxJ3jrRboMVwSHlHCRrAqz0CHyISPWNL28LFExJVMMWtRBcQcOBYdCWevD9Np6HLnfXwOIrwkK0ljT483rRBIpWZHRZyxQQ9iUZvEA1zm1NDJWxVObgtZU947K5cqM61cbCpfec0FCHfrqaTwyyy1sga4o5oaPz2orBSczcrEfKSm8Zd'
   const {type, draft, published} = props
 
   const slug =
@@ -11,33 +11,33 @@ export default function resolveProductionUrl(props: DocumentActionProps): string
 
   switch (type) {
     case 'homepage':
-      return `https://spinellikilcollin.com?preview=${readToken}`
+      return `http://localhost:3333?preview=${readToken}`
       break
     case 'product':
-      return `https://spinellikilcollin.com/products/${slug}?preview=${readToken}`
+      return `http://localhost:3333/products/${slug}?preview=${readToken}`
       break
     case 'collection':
-      return `https://spinellikilcollin.com/collections/${slug}?preview=${readToken}`
+      return `http://localhost:3333/collections/${slug}?preview=${readToken}`
       break
     case 'journalEntry':
-      return `https://spinellikilcollin.com/journal/${slug}?preview=${readToken}`
+      return `http://localhost:3333/journal/${slug}?preview=${readToken}`
       break
     case 'about':
-      return `https://spinellikilcollin.com/about?preview=${readToken}`
+      return `http://localhost:3333/about?preview=${readToken}`
       break
     case 'page':
       // @ts-ignore
-      return `https://spinellikilcollin.com/about/${slug}?preview=${readToken}`
+      return `http://localhost:3333/about/${slug}?preview=${readToken}`
       break
     case 'contact':
-      return `https://spinellikilcollin.com/about/contact?preview=${readToken}`
+      return `http://localhost:3333/about/contact?preview=${readToken}`
       break
     case 'customize':
-      return `https://spinellikilcollin.com/customize?preview=${readToken}`
+      return `http://localhost:3333/customize?preview=${readToken}`
       break
     case 'customerCare':
-      return `https://spinellikilcollin.com/customer-care?preview=${readToken}`
+      return `http://localhost:3333/customer-care?preview=${readToken}`
     default:
-      return `https://spinellikilcollin.com?preview=${readToken}`
+      return `http://localhost:3333?preview=${readToken}`
   }
 }

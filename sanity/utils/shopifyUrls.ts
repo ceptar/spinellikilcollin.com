@@ -1,6 +1,6 @@
 import {SHOPIFY_STORE_ID} from '../constants'
 
-const storeUrl = `https://admin.shopify.com/store/${SHOPIFY_STORE_ID}`
+const storeUrl = `http://212.132.115.241:9000`
 
 export const collectionUrl = (collectionId: number) => {
   if (!SHOPIFY_STORE_ID) {

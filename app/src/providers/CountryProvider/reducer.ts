@@ -65,8 +65,8 @@ const reducer = (state: State, action: Action): State => {
         loading: false,
         error: action.error,
         message: action.message,
-        currentCountry: ShopifyStorefrontCountryCode.Us,
-        currency: 'USD',
+        currentCountry: ShopifyStorefrontCountryCode,
+        currency: 'EUR',
       }
     default:
       // @ts-ignore
@@ -76,8 +76,8 @@ const reducer = (state: State, action: Action): State => {
 
 const initialState: State = {
   loading: true,
-  currentCountry: ShopifyStorefrontCountryCode.Us,
-  currency: 'USD',
+  currentCountry: ShopifyStorefrontCountryCode,
+  currency: 'EUR',
   // eslint-disable-next-line @typescript-eslint/no-empty-function
 }
 

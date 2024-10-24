@@ -8,7 +8,7 @@ export default defineType({
     collapsed: false,
     collapsible: true,
   },
-  readOnly: true,
+  readOnly: false,
   fieldsets: [
     {
       name: 'status',
@@ -195,7 +195,7 @@ export default defineType({
       name: 'options',
       title: 'Options',
       type: 'array',
-      hidden: true,
+      hidden: false,
       of: [
         {
           type: 'option',

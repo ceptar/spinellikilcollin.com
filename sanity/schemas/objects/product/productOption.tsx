@@ -12,7 +12,7 @@ export const productOption = defineType({
       name: 'name',
       title: 'Name',
       type: 'string',
-      readOnly: true,
+      readOnly: false,
     }),
     // Values
     {

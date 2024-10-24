@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Maybe, ShopifyMoneyV2, ShopifyStorefrontMoneyV2 } from '../../types'
-import { ShopifyStorefrontCountryCode } from '../../types/generated-shopify'
+import { ShopifyStorefrontCountry } from '../../types/generated-shopify'
 import { roundTo, setCookie, getCookie } from '../../utils'
 import { useCurrency } from '../CurrencyProvider'
 import { useToast, ToastType } from '../ToastProvider'
@@ -105,7 +105,7 @@ export const CountryProvider = ({ children }: CountryProps) => {
       sendToast()
     } else {
       // console.log('no country cookie detected, setting to US')
-      updateCountryState(ShopifyStorefrontCountryCode.Us)
+      updateCountryState('ShopifyStorefrontCountryCode()')
     }
   }, [])
 

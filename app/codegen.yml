@@ -24,9 +24,9 @@ generates:
   #     - fragment-matcher
   ./src/types/generated-shopify.ts:
     schema:
-      - https://good-idea-dev.myshopify.com/api/graphql:
+      - http://212.132.115.241:4000/graphql:
           headers:
-            X-Shopify-Storefront-Access-Token: 'd1fda2e02fbf98d5f82fbba3530b7771'
+            X-Shopify-Storefront-Access-Token: ''
     # IDK WHY the spinelli api errors. But the type are the same..
     # schema:
     #   - https://spinellikilcollin.myshopify.com/api/graphql:

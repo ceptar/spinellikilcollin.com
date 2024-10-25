@@ -1,33 +1,7 @@
 import * as React from 'react'
-
-const { useReducer } = React
-
-interface CartProviderContextValue {
-  open: boolean
-  message?: string
-  openCart: (message?: string) => void
-  closeCart: () => void
-  /* */
-}
-
-const CartProviderContext = React.createContext<
-  CartProviderContextValue | undefined
->(undefined)
-
-export const CartProviderConsumer = CartProviderContext.Consumer
-
-export const useCart = () => {
-  const ctx = React.useContext(CartProviderContext)
-  if (!ctx)
-    throw new Error(
-      'useCartProviderContext must be used within a CartProviderProvider',
-    )
-  return ctx
-}
-
-interface CartProviderProps {
-  children: React.ReactNode
-}
+import { useReducer } from 'react'
+import { useMedusa } from './MedusaProvider/MedusaProvider'
+import { useMedusaCheckout } from './MedusaProvider/MedusaCheckoutProvider'
 
 interface CartState {
   open: boolean
@@ -48,42 +22,78 @@ interface CloseAction {
 
 type Action = OpenAction | CloseAction
 
-function cartReducer(currentState: CartState, action: Action): CartState {
+interface CartProviderContextValue {
+  open: boolean
+  message?: string
+  openCart: (message?: string) => void
+  closeCart: () => void
+  cart: any
+  checkout: any
+  addLineItem: (variantId: string, quantity: number) => Promise<void>
+  removeLineItem: (lineId: string) => Promise<void>
+  handleCheckout: () => Promise<void>
+}
+
+const CartProviderContext = React.createContext<CartProviderContextValue | undefined>(undefined)
+
+export const useCart = () => {
+  const ctx = React.useContext(CartProviderContext)
+  if (!ctx) {
+    throw new Error('useCart must be used within a CartProvider')
+  }
+  return ctx
+}
+
+function cartReducer(state: CartState, action: Action): CartState {
   switch (action.type) {
     case OPEN_CART:
       return {
-        ...currentState,
+        ...state,
         open: true,
         message: action.message,
       }
     case CLOSE_CART:
       return {
-        ...currentState,
+        ...state,
         open: false,
       }
     default:
-      // @ts-ignore
-      throw new Error(`"${action.type}" is not a valid action type`)
+      const _exhaustiveCheck: never = action
+      throw new Error(`Unhandled action type: ${_exhaustiveCheck}`)
   }
 }
-
 const initialState: CartState = {
   open: false,
   message: undefined,
 }
 
-export const CartProvider = ({ children }: CartProviderProps) => {
+export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, initialState)
+  const { cart, addLineItem, removeLineItem } = useMedusa()
+  const { createCheckout, checkout } = useMedusaCheckout()
 
   const { message, open } = state
+  
   const openCart = (message?: string) => dispatch({ type: OPEN_CART, message })
   const closeCart = () => dispatch({ type: CLOSE_CART })
+
+  const handleCheckout = async () => {
+    if (cart && !checkout) {
+      await createCheckout()
+    }
+    // Redirect to checkout page or open checkout modal
+  }
 
   const value = {
     open,
     message,
     openCart,
     closeCart,
+    cart,
+    checkout,
+    addLineItem,
+    removeLineItem,
+    handleCheckout
   }
 
   return (

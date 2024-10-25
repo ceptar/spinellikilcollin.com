@@ -31,6 +31,9 @@ import { CurrencySelector } from './CurrencySelector'
 import { CountrySelector } from './CountrySelector'
 import { QuickLinks } from './QuickLinks'
 import { Breadcrumbs } from '../Footer/Breadcrumbs'
+
+import { useMedusaCheckout } from '../../providers/MedusaProvider/MedusaCheckoutProvider'
+
 const { useEffect, useRef } = React
 
 export const Navigation = ({ breadCrumbs }) => {
@@ -45,9 +48,9 @@ export const Navigation = ({ breadCrumbs }) => {
     colorTheme,
   } = useNavigation()
   /* Parsing */
-  const { loading, checkout } = useShopify()
+  const { isLoading, checkout } = useMedusaCheckout()
   const lineItems = checkout ? unwindEdges(checkout.lineItems)[0] : []
-  const cartCount = loading ? 0 : lineItems.length || 0
+  const cartCount = isLoading ? 0 : lineItems.length || 0
 
   const openCartHandler = () => openCart()
 
@@ -103,7 +106,7 @@ export const Navigation = ({ breadCrumbs }) => {
               <SearchButton />
             </SearchButtonWrapper>
             <CartButtonWrapper
-              isLoading={loading}
+              isLoading={isLoading}
               onClick={openCartHandler}
               colorTheme={colorTheme}
               aria-label="open cart"

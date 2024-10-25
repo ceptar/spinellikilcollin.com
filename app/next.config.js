@@ -41,6 +41,10 @@ const SKIP_BUILD_STATIC_GENERATION = process.env.SKIP_BUILD_STATIC_GENERATION
 const VERCEL_GITHUB_COMMIT_SHA = process.env.VERCEL_GITHUB_COMMIT_SHA
 const VERCEL_URL = process.env.VERCEL_URL
 
+const SHOPIFY_STOREFRONT_TOKEN = process.env.SHOPIFY_STOREFRONT_TOKEN
+const SHOPIFY_STOREFRONT_URL = process.env.SHOPIFY_STOREFRONT_URL
+const SHOPIFY_GRAPHQL_URL = process.env.SHOPIFY_GRAPHQL_URL
+
 module.exports = withSourceMaps({
   i18n: {
     locales: ['en'],
@@ -69,6 +73,10 @@ module.exports = withSourceMaps({
     FB_PRDOUCT_CATALOG_ID,
     SHOW_IN_STOCK_INDICATORS,
     SKIP_BUILD_STATIC_GENERATION,
+
+SHOPIFY_STOREFRONT_TOKEN,
+SHOPIFY_STOREFRONT_URL,
+SHOPIFY_GRAPHQL_URL,
   },
   serverRuntimeConfig: {
     PROJECT_ROOT: __dirname,
@@ -93,7 +101,7 @@ module.exports = withSourceMaps({
           },
         ],
         permanent: false,
-        destination: 'https://spinellikilcollinkorea.com/',
+        destination: 'https://discobabes.store',
       },
     ]
   },

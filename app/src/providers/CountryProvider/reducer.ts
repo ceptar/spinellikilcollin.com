@@ -1,13 +1,13 @@
 import { useReducer } from 'react'
 import { Sentry } from '../../services/sentry'
-import { ShopifyStorefrontCountryCode } from '../../types/generated-shopify'
+import { MedusaCountryCode } from './types'
 import { config } from '../../config'
 import { string } from 'yup'
 import { Maybe } from '../../types'
 
 interface State {
   loading: boolean
-  currentCountry: ShopifyStorefrontCountryCode
+  currentCountry: MedusaCountryCode
   currency: string
   error?: Error | null
   message?: string | null
@@ -30,7 +30,7 @@ interface ContinueAction {
 
 interface SuccessAction {
   type: ActionTypes.SUCCESS
-  country: ShopifyStorefrontCountryCode
+  country: MedusaCountryCode
   currency: string
 }
 
@@ -65,8 +65,6 @@ const reducer = (state: State, action: Action): State => {
         loading: false,
         error: action.error,
         message: action.message,
-        currentCountry: ShopifyStorefrontCountryCode,
-        currency: 'EUR',
       }
     default:
       // @ts-ignore
@@ -76,13 +74,13 @@ const reducer = (state: State, action: Action): State => {
 
 const initialState: State = {
   loading: true,
-  currentCountry: ShopifyStorefrontCountryCode,
+  currentCountry: MedusaCountryCode.AT,
   currency: 'EUR',
   // eslint-disable-next-line @typescript-eslint/no-empty-function
 }
 
 const getCurrencyFromCountry = async (
-  country: ShopifyStorefrontCountryCode,
+  country: MedusaCountryCode,
 ): Promise<string | undefined> => {
   const countryData = await import('../../data/countries.json')
   return countryData.default
@@ -93,7 +91,7 @@ const getCurrencyFromCountry = async (
 export const useCountryState = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  const updateCountry = async (country: ShopifyStorefrontCountryCode) => {
+  const updateCountry = async (country: MedusaCountryCode) => {
     dispatch({ type: ActionTypes.UPDATE })
     getCurrencyFromCountry(country)
       .then((data) => {

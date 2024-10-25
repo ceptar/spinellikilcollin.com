@@ -168,29 +168,19 @@ interface WithColor {
 
 export const LogoWrapper = styled.div<WithColor>`
   ${({ theme, colorTheme }) => css`
-    position: relative;
-    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    max-width: 250px;
+
+    img {
+object-fit: cover;
+
+    }
+
     svg {
-      width: 100%;
-      ${colorTheme == 'light'
-        ? `path {
-          fill: ${theme.colors.grays[1]};
-        }
-        `
-        : ''};
-    }
-    a:focus-visible {
-      ${theme.focus.bottom(0, 0)}
-    }
-    ${theme.mediaQueries.mobile} {
-      width: 170px;
-      transform: translateY(4px);
-      svg {
-        width: 100%;
-      }
-    }
-    @media screen and (max-width: 360px) {
-      width: 100%;
+object-fit: cover;
+
+      ${colorTheme == 'light' ? `path { fill: ${theme.colors.grays[3]}; }` : ''}
     }
   `}
 `

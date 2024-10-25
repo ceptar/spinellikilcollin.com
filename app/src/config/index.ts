@@ -49,11 +49,11 @@ if (!SANITY_AUTH_TOKEN)
 // if (!EXCHANGE_RATE_API_KEY)
 //   throw new Error('You must include a EXCHANGE_RATE_API_KEY variable')
 
-const SHOPIFY_STOREFRONT_TOKEN = 'pk_01JAXT51MHM6JRY37G0499JKKC'
+const SHOPIFY_STOREFRONT_TOKEN = '$(SHOPIFY_STOREFRONT_TOKEN)'
 const SHOPIFY_STOREFRONT_URL =
-  'http://212.132.115.241:4000/graphql'
+  '$(SHOPIFY_GRAPHQL_TOKEN)'
 const NEW_SHOPIFY_STOREFRONT_URL =
-  'http://212.132.115.241:4000/graphql'
+  '$(SHOPIFY_GRAPHQL_TOKEN)'
 const SANITY_GRAPHQL_URL = `https://${SANITY_PROJECT_ID}.api.sanity.io/v1/graphql/${SANITY_DATASET}/default`
 
 export const config = {

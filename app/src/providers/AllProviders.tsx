@@ -1,11 +1,6 @@
 import * as React from 'react'
 import { ThemeProvider } from '@xstyled/styled-components'
-import { DocumentNode } from 'graphql'
-import { ShopDataResponse } from './ShopDataProvider/shopDataQuery'
-import { config } from '../config'
 import { theme, GlobalStyles } from '../theme'
-import { ShopDataProvider } from './ShopDataProvider'
-import { ShopifyPriceProvider } from './ShopifyPriceProvider'
 import { CartProvider } from './CartProvider'
 import { ModalProvider } from './ModalProvider'
 import { SearchProvider } from './SearchProvider'
@@ -14,14 +9,17 @@ import { CountryProvider } from './CountryProvider'
 import { ErrorDisplay, ErrorProvider } from './ErrorProvider'
 import { NavigationProvider } from './NavigationProvider'
 import { AnalyticsProvider } from './AnalyticsProvider'
-import { ShopifyProvider } from './ShopifyProvider'
 import { ToastProvider } from './ToastProvider'
+import { MedusaProvider } from './MedusaProvider/MedusaProvider'
+import { MedusaCheckoutProvider } from './MedusaProvider/MedusaCheckoutProvider'
+import { ShopDataProvider } from './ShopDataProvider/ShopDataProvider'
+import { MedusaPriceProvider } from './MedusaProvider/MedusaPriceProvider'
 
-const {
-  NEW_SHOPIFY_STOREFRONT_URL,
-  SHOPIFY_STOREFRONT_URL,
-  SHOPIFY_STOREFRONT_TOKEN,
-} = config
+// const {
+//   NEW_SHOPIFY_STOREFRONT_URL,
+//   SHOPIFY_STOREFRONT_URL,
+//   SHOPIFY_STOREFRONT_TOKEN,
+// } = config
 
 /**
  * App
@@ -96,23 +94,27 @@ export const Providers = ({ shopData, children }: Props) => {
         <ToastProvider>
           <CurrencyProvider>
             <CountryProvider>
-              <ShopifyProvider query={shopifyQuery}>
-                <CartProvider>
-                  <NavigationProvider>
-                    <SearchProvider>
-                      <ShopifyPriceProvider query={shopifyQuery}>
+              <MedusaProvider>
+                <MedusaCheckoutProvider>
+                <MedusaPriceProvider>
+                  <CartProvider>
+                    <NavigationProvider>
+                      <SearchProvider>
                         <ShopDataProvider shopData={shopData}>
                           <ThemeProvider theme={theme}>
                             <ErrorDisplay />
                             <GlobalStyles />
-                            <ModalProvider>{children}</ModalProvider>\{' '}
+                            <ModalProvider>
+                              {children}
+                            </ModalProvider>
                           </ThemeProvider>
                         </ShopDataProvider>
-                      </ShopifyPriceProvider>
-                    </SearchProvider>
-                  </NavigationProvider>
-                </CartProvider>
-              </ShopifyProvider>
+                      </SearchProvider>
+                    </NavigationProvider>
+                  </CartProvider>
+                  </MedusaPriceProvider>
+                </MedusaCheckoutProvider>
+              </MedusaProvider>
             </CountryProvider>
           </CurrencyProvider>
         </ToastProvider>

@@ -17,21 +17,21 @@ generates:
         type: 'interface'
   # ./fragmentTypes-shopify.json:
   #   schema:
-  #     - https://spinellikilcollin.myshopify.com/api/graphql:
+  #     - https://xyz.myshopify.com/api/graphql:
   #         headers:
-  #           X-ShopifyStorefront-Access-Token: 0d3e3d2a74d125f799cd78a72e6c0000
+  #           X-ShopifyStorefront-Access-Token: xyz
   #   plugins:
   #     - fragment-matcher
   ./src/types/generated-shopify.ts:
     schema:
-      - http://212.132.115.241:4000/graphql:
+      - ${SHOPIFY_GRAPHQL_URL}:
           headers:
-            X-Shopify-Storefront-Access-Token: ''
+            X-Shopify-Storefront-Access-Token: '${SHOPIFY_STOREFRONT_TOKEN}'
     # IDK WHY the spinelli api errors. But the type are the same..
     # schema:
     #   - https://spinellikilcollin.myshopify.com/api/graphql:
     #       headers:
-    #         X-ShopifyStorefront-Access-Token: '0d3e3d2a74d125f799cd78a72e6c0000'
+    #         X-ShopifyStorefront-Access-Token: '0d3e3d2a74d1xyz25f799cd78a72e6c0000'
     plugins:
       - typescript
     config:

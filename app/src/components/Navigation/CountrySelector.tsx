@@ -1,17 +1,17 @@
 import * as React from 'react'
 import styled from '@xstyled/styled-components'
-import { useCountry } from '../../providers/CountryProvider'
 import { Form } from '../Forms'
 import { SelectElement } from '../Forms/Fields/styled'
 import { CurrencySelectorWrapper } from './styled'
-import {
-  ShopifyStorefrontCurrencyCode,
-  ShopifyStorefrontCountryCode,
-} from '../../types/generated-shopify'
+
+import { MedusaCountryCode, useCountry } from '../../providers/CountryProvider'
+import { CurrencyProvider } from '../../providers'
+
 import { useWait } from '../../hooks'
 
 import { CountryOption } from './types'
 import { Maybe } from '../../types'
+import { CountryCodeSelector } from '../Forms/CustomFields/PhoneField/CountryCodeSelector'
 
 const { useState, useEffect } = React
 
@@ -79,20 +79,20 @@ export const CountrySelector = ({ colorTheme }: CountrySelectorProps) => {
   const wait = useWait()
 
   const [options, setOptions] = useState<CountryOption[]>([])
-  const [country, setCountry] = useState<ShopifyStorefrontCountryCode>(
-    ShopifyStorefrontCountryCode,
+  const [country, setCountry] = useState<MedusaCountryCode>(
+    MedusaCountryCode.AT,
   )
   const {
-    loading,
-    currentCountry,
+    // loading,
+    // currentCountry,
     updateCountry,
-    isHighlighted,
-    setIsHighlighted,
+    // isHighlighted,
+    // setIsHighlighted,
   } = useCountry()
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target
     const countryKey = value.slice(0, 1) + value[1].toLowerCase()
-    updateCountry(ShopifyStorefrontCountryCode[countryKey])
+    updateCountry(MedusaCountryCode[countryKey])
   }
 
   const handleSubmit = ({ country }) => {
@@ -116,39 +116,39 @@ export const CountrySelector = ({ colorTheme }: CountrySelectorProps) => {
     })
   }, [])
 
-  useEffect(() => {
-    if (isHighlighted === 'isVisible') {
-      wait(1200)
-        .then(() => {
-          setIsHighlighted('isHidden')
-        })
-        .then(() => {
-          wait(300).then(() => {
-            setIsHighlighted(null)
-          })
-        })
-    }
-  }, [isHighlighted])
+  // useEffect(() => {
+  //   if (isHighlighted === 'isVisible') {
+  //     wait(1200)
+  //       .then(() => {
+  //         setIsHighlighted('isHidden')
+  //       })
+  //       .then(() => {
+  //         wait(300).then(() => {
+  //           setIsHighlighted(null)
+  //         })
+  //       })
+  //   }
+  // }, [isHighlighted])
 
-  useEffect(() => {
-    if (currentCountry && currentCountry.length >= 2) {
-      const countryKey = currentCountry.slice(0, 1) + currentCountry[1].toLowerCase();
-      setCountry(ShopifyStorefrontCountryCode[countryKey]);
-    } else {
-      // Handle the case where currentCountry is not valid
-      setCountry(null); // or some default value
-    }
-  }, [currentCountry]);
+  // useEffect(() => {
+  //   if (currentCountry && currentCountry.length >= 2) {
+  //     const countryKey = currentCountry.slice(0, 1) + currentCountry[1].toLowerCase();
+  //     setCountry(ShopifyStorefrontCountryCode[countryKey]);
+  //   } else {
+  //     // Handle the case where currentCountry is not valid
+  //     setCountry(null); // or some default value
+  //   }
+  // }, [currentCountry]);
 
   return (
     <>
       <CurrencySelectorWrapper
-        isHighlighted={isHighlighted}
+        // isHighlighted={isHighlighted}
         colorTheme={colorTheme}
         id={'currency-select'}
       >
         <Form
-          disabled={loading}
+          // disabled={loading}
           onSubmit={handleSubmit}
           initialValues={initialValues}
         >

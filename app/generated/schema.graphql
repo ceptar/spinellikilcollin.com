@@ -1,0 +1,1555 @@
+type Address {
+  id: ID!
+  address_1: String
+  address_2: String
+  city: String
+  company: String
+  country_code: String
+  created_at: String
+  customer_id: ID
+  deleted_at: String
+  first_name: String
+  last_name: String
+  metadata: String
+  phone: String
+  postal_code: String
+  province: String
+  updated_at: String
+}
+
+enum CartType {
+  CLAIM
+  DEFAULT
+  DRAFTORDER
+  PAYMENTLINK
+  SWAP
+}
+
+enum CompleteCartType {
+  CART
+  ORDER
+  SWAP
+}
+
+input AddLineItemInput {
+  id: ID!
+  metadata: String
+  quantity: Int!
+  variant_id: ID!
+}
+
+input AddressInput {
+  id: ID
+  address_1: String
+  address_2: String
+  city: String
+  company: String
+  country_code: String
+  created_at: String
+  customer_id: ID
+  deleted_at: String
+  first_name: String
+  last_name: String
+  metadata: String
+  phone: String
+  postal_code: String
+  province: String
+  updated_at: String
+}
+
+input AddShippingMethodInput {
+  id: ID!
+  option_id: ID!
+  data: String
+}
+
+input CompleteCartInput {
+  id: ID!
+}
+
+input CreateCartInput {
+  region_id: ID
+  sales_channel_id: ID
+  country_code: String
+  items: [CreateCartItemsInput!]
+  context: String
+}
+
+input CreateCartItemsInput {
+  variant_id: ID
+  quantity: Int
+}
+
+input CreatePaymentSessionsInput {
+  id: ID!
+}
+
+input DeleteLineItemInput {
+  id: ID!
+  line_id: ID!
+}
+
+input DeletePaymentSessionInput {
+  id: ID!
+  provider_id: ID!
+}
+
+input RefreshPaymentSessionInput {
+  id: ID!
+  provider_id: ID!
+}
+
+input RemoveDiscountInput {
+  id: ID!
+  code: String!
+}
+
+input SelectPaymentSessionInput {
+  id: ID!
+  provider_id: ID!
+}
+
+input UpdateCartInput {
+  id: ID!
+  billing_address: AddressInput
+  context: String
+  country_code: String
+  customer_id: ID
+  discounts: [String!]
+  email: String
+  gift_cards: [String!]
+  region_id: ID
+  sales_channel_id: ID
+  shipping_address: AddressInput
+}
+
+input UpdateLineItemInput {
+  id: ID!
+  line_id: ID!
+  quantity: Int!
+}
+
+input UpdatePaymentSessionInput {
+  id: ID!
+  provider_id: ID!
+  data: String!
+}
+
+type Cart {
+  id: ID!
+  billing_address_id: ID
+  billing_address: Address
+  completed_at: String
+  context: String
+  customer_id: ID
+  customer: Customer
+  discount_total: Float
+  discounts: [Discount!]!
+  email: String
+  gift_card_tax_total: Float
+  gift_card_total: Float
+  gift_cards: [GiftCard!]!
+  idempotency_key: String
+  items: [LineItem!]!
+  item_tax_total: Float
+  metadata: String
+  payment_authorized_at: String
+  payment_id: ID
+  payment: Payment
+  payment_session: PaymentSession
+  payment_sessions: [PaymentSession!]!
+  region_id: ID
+  region: Region
+  refundable_amount: Float
+  refunded_total: Float
+  sales_channel: SalesChannel
+  sales_channel_id: ID
+  shipping_addess_id: ID
+  shipping_address: Address
+  shipping_methods: [ShippingMethod!]!
+  shipping_tax_total: Float
+  shipping_total: Float
+  subtotal: Float
+  tax_total: Float
+  total: Float
+  type: CartType
+}
+
+type CompleteCartResponse {
+  type: CompleteCartType
+  data: String
+}
+
+type Mutation {
+  addLineItem(input: AddLineItemInput): Cart
+  addShippingMethod(input: AddShippingMethodInput): Cart
+  calculateCartTaxes(id: ID!): Cart
+  completeCart(input: CompleteCartInput): CompleteCartResponse
+  createCart(input: CreateCartInput): Cart
+  createPaymentSessions(input: CreatePaymentSessionsInput): Cart
+  deleteLineItem(input: DeleteLineItemInput): Cart
+  deletePaymentSession(input: DeletePaymentSessionInput): Cart
+  refreshPaymentSession(input: RefreshPaymentSessionInput): Cart
+  removeDiscount(input: RemoveDiscountInput): Cart
+  selectPaymentSession(input: SelectPaymentSessionInput): Cart
+  updateCart(input: UpdateCartInput): Cart
+  updateLineItem(input: UpdateLineItemInput): Cart
+  updatePaymentSession(input: UpdatePaymentSessionInput): Cart
+  createCustomer(input: CreateCustomerInput): Customer
+  addShippingAddress(input: AddShippingAddressInput): Customer
+  deleteShippingAddress(input: DeleteShippingAddressInput): Customer
+  resetPassword(input: ResetPasswordInput): Customer
+  requestPasswordReset(input: ResetPasswordTokenInput): NoContentResponse
+  updateCustomer(input: UpdateCustomerInput): Customer
+  updateShippingAddress(input: UpdateShippingAddressInput): Customer
+  completeOrderEdit(input: CompleteOrderEditInput): OrderEdit
+  declineOrderEdit(input: DeclineOrderEditInput): OrderEdit
+  addCountry(input: AddCountryInput): Region
+  createReturnReason(input: CreateReturnReasonInput): ReturnReason
+  deleteReturnReason(input: DeleteReturnReasonInput): DeletionResponse
+  updateReturnReason(input: UpdateReturnReasonInput): ReturnReason
+  createReturn(input: CreateReturnInput): Return
+  addCurrencyCode(input: AddCurrencyCodeInput): Store
+  deleteCurrencyCode(input: DeleteCurrencyCodeInput): Store
+  updateStore(input: UpdateStoreInput): Store
+  createSwap(input: CreateSwapInput): Swap
+  createUser(input: CreateUserInput): User
+  deleteUser(input: DeleteUserInput): DeletionResponse
+  adminResetPassword(input: ResetPasswordInput): User
+  adminResetPasswordToken(input: RequestPasswordResetInput): NoContentResponse
+  updateUser(input: UpdateUserInput): User
+}
+
+type Query {
+  getCart(id: ID!): Cart
+  listCurrencies(code: String, includes_tax: Boolean, order: String, offset: Int, limit: Int): [Currency!]!
+  getCurrentCustomer: Customer
+  getPaymentMethods: [PaymentMethodsResponse!]!
+  listOrders(cart_id: ID, canceled_at: DateComparison, created_at: DateComparison, currency_code: String, display_id: ID, email: String, expand: String, fields: String, fulfillment_status: [String!], limit: Int, id: ID, offset: Int, payment_status: [String!], q: String, region_id: ID, status: [String!], tax_rate: String, updated_at: DateComparison): [ListOrdersResponse!]!
+  getGitCardByCode(code: String!): GiftCard
+  doesEmailExist(email: String!): Exists
+  getOrderEdit(id: ID!): OrderEdit
+  getOrder(id: ID!): Order
+  getOrderByCartId(cart_id: ID!): Order
+  lookupOrder(display_id: Int!, email: String!, shipping_address: ShippingAddressQuery): Order
+  getCollection(id: ID!): ProductCollection
+  listCollections(offset: Int, limit: Int, created_at: DateComparison, updated_at: DateComparison): ListCollection
+  getProductVariant(id: ID!, cart_id: ID, currency_code: String, region_id: ID): ProductVariant
+  listProductVariants(expand: String, ids: String, limit: Int, offset: Int, title: String, inventory_quantity: String): String
+  getProduct(id: ID!, cart_id: ID, region_id: ID, currency_code: String): Product
+  listProducts(collection_id: [String], created_at: DateComparison, description: String, handle: String, id: [String], is_giftcard: Boolean, q: String, tags: [String], title: String, type: String, updated_at: DateComparison): ListProductsResponse
+  searchProducts(limit: Int, offset: Int, q: String!): SearchProductsResponse
+  getRegion(id: ID!): Region
+  listRegions(offset: Int, limit: Int, created_at: DateComparison, updated_at: DateComparison): [Region!]!
+  getReturnReason(id: ID!): ReturnReason
+  listReturnReasons: [ReturnReason]!
+  listShippingOptions(is_return: Boolean, product_ids: [String], region_id: String): [ShippingOption!]!
+  listShippingOptionsForCart(cart_id: ID!): [ShippingOption!]!
+  getStore: Store
+  listPaymentProviders: [PaymentProvider!]!
+  listTaxProviders: [TaxProvider!]!
+  getByCartId(input: GetByCartIdInput): Swap
+  getUser(id: ID!): User
+  listUsers: [User!]!
+}
+
+type ClaimImage {
+  id: ID!
+  claim_item_id: ID!
+  claim_item: ClaimItem
+  created_at: String
+  deleted_at: String
+  metadata: String
+  updated_at: String
+  url: String!
+}
+
+enum ClaimReason {
+  MISSINGITEM
+  WRONGITEM
+  PRODUCTIONFAILURE
+  OTHER
+}
+
+type ClaimItem {
+  id: ID!
+  claim_order_id: ID!
+  claim_order: ClaimOrder
+  created_at: String
+  deleted_at: String
+  images: [ClaimImage!]!
+  item_id: ID!
+  item: LineItem
+  metadata: String
+  note: String
+  quantity: Int!
+  reason: ClaimReason!
+  tags: [ClaimTag!]!
+  updated_at: String
+  variant_id: ID!
+  variant: ProductVariant
+}
+
+enum ClaimFulfillmentStatus {
+  NOTFULFILLED
+  PARTIALLYFULFILLED
+  FULFILLED
+  PARTIALLYSHIPPED
+  SHIPPED
+  PARTIALLYRETURNED
+  RETURNED
+  CANCELED
+  REQUIRESACTION
+}
+
+enum ClaimPaymentStatus {
+  NA
+  NOTREFUNDED
+  REFUNDED
+}
+
+enum ClaimType {
+  REFUND
+  REPLACE
+}
+
+type ClaimOrder {
+  id: ID!
+  additional_items: [LineItem!]!
+  canceled_at: String
+  claim_items: [ClaimItem!]!
+  created_at: String
+  deleted_at: String
+  fulfillments: [Fulfillment!]!
+  fulfillment_status: ClaimFulfillmentStatus
+  idempotency_key: String
+  metadata: String
+  no_notification: Boolean
+  order_id: ID!
+  order: Order
+  payment_status: ClaimPaymentStatus
+  refund_amount: Float
+  return_order: Return
+  shipping_address_id: ID
+  shipping_address: Address
+  shipping_methods: [ShippingMethod!]!
+  type: ClaimType!
+  updated_at: String
+}
+
+type ClaimTag {
+  id: ID!
+  created_at: String
+  deleted_at: String
+  metadata: String
+  updated_at: String
+  value: String!
+}
+
+input DateComparison {
+  lt: String
+  gt: String
+  lte: String
+  gte: String
+}
+
+type DeletionResponse {
+  id: ID
+  deleted: Boolean
+  object: String
+}
+
+type NoContentResponse {
+  success: Boolean
+}
+
+type Country {
+  id: ID
+  display_name: String
+  iso_2: String
+  iso_3: String
+  name: String
+  num_code: String
+  region_id: ID
+  region: Region
+}
+
+type Currency {
+  code: String
+  includes_tax: Boolean
+  name: String
+  symbol: String
+  symbol_native: String
+}
+
+type CustomerGroup {
+  id: ID!
+  created_at: String
+  deleted_at: String
+  customers: [Customer!]!
+  metadata: String
+  name: String
+  price_lists: [PriceList!]!
+  updated_at: String
+}
+
+type Customer {
+  id: ID!
+  billing_address_id: ID
+  billing_address: Address
+  created_at: String
+  deleted_at: String
+  email: String!
+  first_name: String!
+  groups: [CustomerGroup!]!
+  has_account: Boolean
+  last_name: String!
+  metadata: String
+  orders: [Order!]!
+  phone: String
+  shipping_addresses: [Address!]!
+  updated_at: String
+}
+
+type Exists {
+  exists: Boolean
+}
+
+type PaymentMethodsResponse {
+  provider_id: ID
+  data: String
+}
+
+input AddShippingAddressInput {
+  address_1: String!
+  address_2: String
+  city: String!
+  company: String
+  country_code: String!
+  first_name: String!
+  last_name: String!
+  metadata: String
+  phone: String
+  postal_code: String!
+  province: String
+}
+
+input CreateCustomerInput {
+  email: String!
+  first_name: String!
+  last_name: String!
+  password: String!
+  phone: String
+}
+
+input UpdateCustomerInput {
+  billing_address: UpdateCustomerBillingAddressInput
+  email: String
+  first_name: String
+  last_name: String
+  password: String
+  phone: String
+  metadata: String
+}
+
+input DeleteShippingAddressInput {
+  id: ID!
+}
+
+input ResetPasswordInput {
+  email: String!
+  password: String!
+  token: String!
+}
+
+input ResetPasswordTokenInput {
+  email: String!
+}
+
+input UpdateCustomerBillingAddressInput {
+  address_1: String
+  address_2: String
+  city: String
+  company: String
+  country_code: String
+  first_name: String
+  last_name: String
+  metadata: String
+  phone: String
+  postal_code: String
+  province: String
+}
+
+input UpdateShippingAddressInput {
+  id: ID!
+  address_1: String
+  address_2: String
+  city: String
+  company: String
+  country_code: String
+  first_name: String
+  last_name: String
+  metadata: String
+  phone: String
+  postal_code: String
+  province: String
+}
+
+type ListOrdersResponse {
+  count: Int
+  limit: Int
+  offset: Int
+  orders: [Order!]!
+}
+
+enum DiscountConditionOperator {
+  IN
+  NOTIN
+}
+
+enum DiscountConditionType {
+  CUSTOMERGROUPS
+  PRODUCTCOLLECTIONS
+  PRODUCTS
+  PRODUCTTAGS
+  PRODUCTTYPES
+}
+
+type DiscountCondition {
+  id: ID!
+  customer_groups: [CustomerGroup!]!
+  discount_rule: DiscountRule
+  discount_rule_id: ID
+  metadata: String
+  operator: DiscountConditionOperator
+  products: [Product!]!
+  product_collections: [ProductCollection!]!
+  product_tags: [ProductTag!]!
+  product_types: [ProductType!]!
+  type: DiscountConditionType
+}
+
+enum AllocationType {
+  ITEM
+  TOTAL
+}
+
+enum DiscountRuleType {
+  FIXED
+  FREESHIPPING
+  PERCENTAGE
+}
+
+type DiscountRule {
+  id: ID!
+  allocation: AllocationType
+  conditions: [DiscountCondition!]!
+  description: String
+  metadata: String
+  type: DiscountRuleType
+  value: Float
+}
+
+type Discount {
+  id: ID!
+  code: String
+  ends_at: String
+  is_disabled: Boolean
+  is_dynamic: Boolean
+  metadata: String
+  parent_discount: Discount
+  parent_discount_id: ID
+  regions: [Region!]!
+  rule: DiscountRule
+  rule_id: ID
+  starts_at: String
+  usage_count: Int
+  usage_limit: Int
+  valid_duration: String
+}
+
+enum DraftOrderStatus {
+  COMPLETED
+  OPEN
+}
+
+type DraftOrder {
+  id: ID!
+  canceled_at: String
+  cart_id: ID
+  cart: Cart
+  completed_at: String
+  display_id: ID
+  idempotency_key: String
+  metadata: String
+  no_notification_order: Boolean
+  order_id: ID
+  order: Order
+  status: DraftOrderStatus
+}
+
+type FulfillmentItem {
+  fulfillment_id: ID!
+  fulfillment: Fulfillment
+  item_id: ID!
+  item: LineItem
+  quantity: Int!
+}
+
+type FulfillmentProvider {
+  id: ID
+  is_installed: Boolean
+}
+
+type Fulfillment {
+  id: ID!
+  canceled_at: String
+  claim_order_id: ID
+  claim_order: ClaimOrder
+  data: String
+  idempotency_key: String
+  items: [FulfillmentItem!]!
+  metadata: String
+  no_notification: Boolean
+  order_id: ID
+  order: Order
+  provider_id: ID!
+  provider: FulfillmentProvider
+  shipped_at: String
+  swap_id: ID
+  swap: Swap
+  tracking_links: [TrackingLink!]!
+  tracking_numbers: [String!]!
+}
+
+type GiftCardTransaction {
+  id: ID!
+  amount: Float!
+  created_at: String
+  gift_card_id: ID!
+  gift_card: GiftCard
+  is_taxable: Boolean
+  order_id: ID
+  order: Order
+  tax_rate: Float
+}
+
+type GiftCard {
+  id: ID!
+  balance: Int!
+  code: String!
+  created_at: String
+  deleted_at: String
+  ends_at: String
+  is_disabled: Boolean
+  metadata: String
+  order_id: ID
+  order: Order
+  value: Int!
+  region_id: ID
+  region: Region
+  updated_at: String
+}
+
+type IdempotencyKey {
+  id: ID
+  created_at: String
+  idempotency_key: String
+  locked_at: String
+  recovery_point: String
+  response_body: String
+  response_code: Int
+  request_method: String
+  request_params: String
+  request_path: String
+}
+
+type Image {
+  id: ID!
+  created_at: String
+  deleted_at: String
+  metadata: String
+  updated_at: String
+  url: String!
+}
+
+type LineItemAdjustment {
+  id: ID!
+  amount: Float!
+  description: String!
+  discount_id: ID
+  discount: Discount
+  item_id: ID!
+  item: LineItem
+  metadata: String
+}
+
+type LineItemTaxLine {
+  id: ID!
+  code: String
+  item_id: ID
+  item: LineItem
+  metadata: String
+  name: String!
+  rate: Float!
+}
+
+type LineItem {
+  id: ID!
+  adjustments: [LineItemAdjustment!]!
+  allow_discounts: Boolean
+  cart_id: ID
+  cart: Cart
+  claim_order_id: ID
+  claim_order: ClaimOrder
+  description: String
+  discount_total: Float
+  fulfilled_quantity: Int
+  gift_card_total: Float
+  has_shipping: Boolean
+  includes_tax: Boolean
+  is_giftcard: Boolean
+  is_return: Boolean
+  metadata: String
+  order_id: ID
+  order: Order
+  order_edit_id: ID
+  order_edit: OrderEdit
+  original_item_id: ID
+  original_tax_total: Float
+  original_total: Float
+  quantity: Int!
+  refundable: Boolean
+  returned_quantity: Int
+  shipped_quantity: Int
+  should_merge: Boolean
+  subtotal: Float
+  swap_id: ID
+  swap: Swap
+  tax_lines: [LineItemTaxLine!]!
+  tax_total: Float
+  title: String!
+  thumbnail: String
+  total: Float
+  unit_price: Float!
+  variant_id: ID
+  variant: ProductVariant
+}
+
+type MoneyAmount {
+  id: ID!
+  amount: Float
+  currency: Currency
+  currency_code: String
+  min_quantity: Int
+  max_quantity: Int
+  price_list: PriceList
+  price_list_id: ID
+  region: Region
+  region_id: ID
+  variant: ProductVariant
+  variant_id: ID
+}
+
+type NotificationProvider {
+  id: ID
+  is_installed: Boolean
+}
+
+type Oauth {
+  id: ID
+  application_name: String
+  data: String
+  display_name: String
+  install_url: String
+  uninstall_url: String
+}
+
+enum OrderEditStatus {
+  CANCELED
+  CONFIRMED
+  CREATED
+  DECLINED
+  REQUESTED
+}
+
+input CompleteOrderEditInput {
+  id: ID!
+}
+
+input DeclineOrderEditInput {
+  id: ID!
+  declined_reason: String
+}
+
+type OrderEdit {
+  id: ID!
+  canceled_at: String
+  canceled_by: String
+  changes: [OrderItemChange!]!
+  confirmed_at: String
+  confirmed_by: String
+  created_by: String!
+  declined_at: String
+  declined_by: String
+  declined_reason: String
+  difference_due: Float
+  discount_total: Float
+  gift_card_tax_total: Float
+  gift_card_total: Float
+  internal_note: String
+  items: [LineItem!]!
+  order_id: ID!
+  order: Order!
+  payment_collection: PaymentCollection
+  payment_collection_id: ID
+  requested_at: String
+  requested_by: String
+  shipping_total: Float
+  status: OrderEditStatus
+  subtotal: Float
+  tax_total: Float
+  total: Float
+}
+
+enum OrderEditItemChangeType {
+  ITEMADD
+  ITEMREMOVE
+  ITEMUPDATE
+}
+
+type OrderItemChange {
+  id: ID!
+  line_item_id: ID
+  line_item: LineItem
+  order_edit_id: ID!
+  order_edit: OrderEdit
+  original_line_item_id: ID
+  original_line_item: LineItem
+  type: OrderEditItemChangeType!
+}
+
+enum FulfillmentStatus {
+  CANCELED
+  FULFILLED
+  NOTFULFILLED
+  PARTIALLYFULFILLED
+  PARTIALLYRETURNED
+  PARTIALLYSHIPPED
+  RETURNED
+  REQUIRESACTION
+  SHIPPED
+}
+
+enum OrderStatus {
+  ARCHIVED
+  CANCELED
+  COMPLETED
+  PENDING
+  REQUIRES_ACTION
+}
+
+enum PaymentStatus {
+  AWAITING
+  CANCELED
+  CAPTURED
+  NOTPAID
+  PARTIALLYREFUNDED
+  REFUNDED
+  REQUIRESACTION
+}
+
+input ShippingAddressQuery {
+  postal_code: String
+}
+
+type Order {
+  id: ID!
+  billing_address_id: ID
+  billing_address: Address
+  canceled_at: String
+  cart_id: ID
+  cart: Cart
+  claims: [ClaimOrder!]!
+  currency_code: String!
+  currency: Currency
+  customer_id: ID!
+  customer: Customer
+  discounts: [Discount!]!
+  discount_total: Float
+  display_id: ID
+  draft_order_id: ID
+  draft_order: DraftOrder
+  edits: [OrderEdit!]!
+  email: String!
+  external_id: String
+  fulfillments: [Fulfillment!]!
+  fulfillment_status: FulfillmentStatus
+  gift_cards: [GiftCard!]!
+  gift_card_tax_total: Float
+  gift_card_total: Float
+  gift_card_transactions: [GiftCardTransaction!]!
+  idempotency_key: String
+  items: [LineItem!]!
+  metadata: String
+  no_notification: Boolean
+  paid_total: Float
+  payments: [Payment!]!
+  payment_status: PaymentStatus
+  region_id: ID!
+  region: Region
+  refundable_amount: Float
+  refunded_total: Float
+  refunds: [Refund!]!
+  returns: [Return!]!
+  sales_channel_id: ID
+  sales_channel: SalesChannel
+  shipping_address_id: ID
+  shipping_address: Address
+  shipping_methods: [ShippingMethod!]!
+  shipping_total: Float
+  status: OrderStatus
+  subtotal: Float
+  swaps: [Swap!]!
+  tax_rate: Float
+  tax_total: Float
+  total: Float
+}
+
+enum PaymentCollectionStatus {
+  AUTHORIZED
+  AWAITING
+  CANCELED
+  CAPTURED
+  NOTPAID
+  PARTIALLYAUTHORIZED
+  PARTIALLYCAPTURED
+  PARTIALLYREFUNDED
+  REFUNDED
+  REQUIRESACTION
+}
+
+enum PaymentCollectionType {
+  ORDEREDIT
+}
+
+type PaymentCollection {
+  id: ID!
+  amount: Float
+  authorized_amount: Float
+  captured_amount: Float
+  created_by: String
+  currency_code: String
+  currency: Currency
+  description: String
+  metadata: String
+  payments: [Payment!]!
+  payment_sessions: [PaymentSession!]!
+  refunded_amount: Float
+  region_id: ID
+  region: Region
+  status: PaymentCollectionStatus
+  type: PaymentCollectionType
+}
+
+type PaymentProvider {
+  id: ID
+  is_installed: Boolean
+}
+
+enum PaymentSessionStatus {
+  AUTHORIZED
+  CANCELED
+  ERROR
+  PENDING
+  REQUIRESMORE
+}
+
+type PaymentSession {
+  id: ID!
+  amount: Float
+  cart_id: ID!
+  cart: Cart
+  data: String
+  idempotency_key: String
+  is_selected: Boolean
+  payment_authorized_at: String
+  provider_id: ID!
+  status: String!
+}
+
+type Payment {
+  id: ID!
+  amount: Float!
+  amount_refunded: Float
+  canceled_at: String
+  captured_at: String
+  cart_id: ID
+  cart: Cart
+  currency_code: String!
+  currency: Currency
+  data: String
+  idempotency_key: String
+  metadata: String
+  order_id: ID
+  order: Order
+  provider_id: ID!
+  swap_id: ID
+  swap: Swap
+}
+
+enum PriceListStatus {
+  ACTIVE
+  DRAFT
+}
+
+enum PriceListType {
+  OVERRIDE
+  SALE
+}
+
+type PriceList {
+  id: ID!
+  customer_groups: [CustomerGroup!]!
+  description: String
+  ends_at: String
+  includes_tax: Boolean
+  name: String
+  prices: [MoneyAmount!]!
+  starts_at: String
+  status: PriceListStatus
+  type: PriceListType
+}
+
+type ProductCollection {
+  id: ID!
+  created_at: String
+  deleted_at: String
+  handle: String
+  metadata: String
+  products: [Product!]!
+  title: String!
+  updated_at: String
+}
+
+type ListCollection {
+  collections: [ProductCollection!]!
+  count: Int
+  limit: Int
+  offset: Int
+}
+
+type ProductOptionValue {
+  id: ID!
+  metadata: String
+  option: ProductOption
+  option_id: ID
+  value: String
+  variant: ProductVariant
+  variant_id: ID
+}
+
+type ProductOption {
+  id: ID!
+  metadata: String
+  title: String
+  product: Product
+  product_id: ID
+  values: [ProductOptionValue!]!
+}
+
+type ProductTag {
+  id: ID!
+  created_at: String
+  deleted_at: String
+  metadata: String
+  updated_at: String
+}
+
+type ProductType {
+  id: ID!
+  created_at: String
+  deleted_at: String
+  metadata: String
+  updated_at: String
+  value: String
+}
+
+type ProductVariant {
+  id: ID!
+  allow_backorder: Boolean
+  barcode: String
+  calculated_price: Float
+  calculated_price_incl_tax: Float
+  calculated_tax: Float
+  created_at: String
+  deleted_at: String
+  ean: String
+  height: Float
+  hs_code: String
+  inventory_quantity: Int
+  length: Float
+  manage_inventory: Boolean
+  material: String
+  metadata: String
+  mid_code: String
+  title: String
+  options: [ProductOptionValue]
+  origin_country: String
+  original_price: Float
+  original_price_incl_tax: Float
+  original_tax: Float
+  prices: [MoneyAmount!]!
+  product: Product
+  product_id: ID
+  sku: String
+  upc: String
+  updated_at: String
+  variant_rank: Int
+  width: Float
+  weight: Float
+}
+
+type TaxRate {
+  code: String
+  name: String
+  rate: Float
+}
+
+enum ProductStatus {
+  DRAFT
+  PROPOSED
+  PUBLISHED
+  REJECTED
+}
+
+type Product {
+  id: ID!
+  collection: ProductCollection
+  collection_id: ID
+  created_at: String
+  deleted_at: String
+  description: String
+  discountable: Boolean
+  external_id: String
+  handle: String
+  height: Float
+  hs_code: String
+  images: [Image!]!
+  is_giftcard: Boolean
+  length: Float
+  material: String
+  metadata: String
+  mid_code: String
+  options: [ProductOption!]!
+  origin_country: String
+  profile: ShippingProfile
+  profile_id: ID
+  sales_channels: [SalesChannel!]
+  status: ProductStatus
+  subtitle: String
+  tags: [ProductTag!]!
+  thumbnail: String
+  title: String
+  type: ProductType
+  type_id: ID
+  updated_at: String
+  variants: [ProductVariant!]!
+  weight: Float
+  width: Float
+}
+
+type ListProductsResponse {
+  limit: Int
+  offset: Int
+  products: [Product!]!
+}
+
+type SearchProductsResponse {
+  hits: String
+}
+
+type Refund {
+  id: ID!
+  amount: Float!
+  idempotency_key: String
+  metadata: String
+  note: String
+  order_id: ID!
+  order: Order
+  payment_id: ID
+  payment: Payment
+  reason: String
+}
+
+type Region {
+  id: ID!
+  automatic_taxes: Boolean
+  countries: [Country]
+  created_at: String
+  currency_code: String
+  deleted_at: String
+  fulfillment_providers: [FulfillmentProvider]
+  gift_cards_taxable: Boolean
+  includes_tax: Boolean
+  metadata: String
+  name: String
+  payment_providers: [PaymentProvider]
+  tax_code: String
+  tax_provider_id: ID
+  tax_rate: Int
+  updated_at: String
+}
+
+input AddCountryInput {
+  id: ID!
+  country_code: String!
+}
+
+type ReturnItem {
+  is_requested: Boolean
+  item_id: ID!
+  item: LineItem
+  metadata: String
+  note: String
+  quantity: Int
+  reason_id: ID
+  reason: ReturnReason
+  received_quantity: Int
+  requested_quantity: Int
+  return_id: ID!
+  return_order: Return
+}
+
+type ReturnReason {
+  id: ID!
+  created_at: String
+  deleted_at: String
+  description: String
+  label: String
+  metadata: String
+  parent_return_reason: ReturnReason
+  parent_return_reason_id: ID
+  return_reason_children: [ReturnReason!]!
+  updated_at: String
+  value: String
+}
+
+input CreateReturnReasonInput {
+  description: String!
+  label: String!
+  metadata: String
+  parent_return_reason_id: ID
+  value: String!
+}
+
+input UpdateReturnReasonInput {
+  id: ID!
+  description: String
+  label: String
+  metadata: String
+  value: String
+}
+
+input DeleteReturnReasonInput {
+  id: ID!
+}
+
+enum ReturnStatus {
+  CANCELED
+  RECEIVED
+  REQUESTED
+  REQUIRESACTION
+}
+
+input CreateReturnInput {
+  items: [CreateReturnItemsInput!]!
+  order_id: ID!
+  return_shipping: CreateReturnReturnShippingInput
+}
+
+input CreateReturnItemsInput {
+  item_id: ID!
+  note: String
+  reason_id: ID
+  quantity: Int!
+}
+
+input CreateReturnReturnShippingInput {
+  option_id: ID!
+}
+
+type Return {
+  id: ID!
+  claim_order_id: ID
+  claim_order: ClaimOrder
+  idempotency_key: String
+  metadata: String
+  no_notification: Boolean
+  order_id: ID
+  order: Order
+  received_at: String
+  refund_amount: Float!
+  shipping_data: String
+  shipping_method: ShippingMethod
+  status: ReturnStatus
+  swap_id: ID
+  swap: Swap
+  items: [ReturnItem!]!
+}
+
+type SalesChannel {
+  id: ID!
+  created_at: String
+  deleted_at: String
+  description: String
+  is_disabled: Boolean
+  name: String
+  updated_at: String
+}
+
+type ShippingMethodTaxLine {
+  id: ID!
+  code: String
+  metadata: String
+  name: String!
+  rate: Float!
+  shipping_method_id: ID!
+  shipping_method: ShippingMethod
+}
+
+type ShippingMethod {
+  id: ID!
+  cart_id: ID
+  cart: Cart
+  claim_order_id: ID
+  claim_order: ClaimOrder
+  data: String
+  includes_tax: Boolean
+  order_id: ID
+  order: Order
+  price: Float!
+  return_id: ID
+  return_order: Return
+  shipping_option_id: ID!
+  shipping_option: ShippingOption
+  subtotal: Float
+  swap_id: ID
+  swap: Swap
+  tax_lines: [ShippingMethodTaxLine!]!
+  tax_total: Float
+  total: Float
+}
+
+enum RequirementType {
+  MAXSUBTOTAL
+  MINSUBTOTAL
+}
+
+type ShippingOptionRequirement {
+  id: ID!
+  amount: Float!
+  deleted_at: String
+  shipping_option_id: ID!
+  shipping_option: ShippingOption
+  type: RequirementType!
+}
+
+enum ShippingOptionPriceType {
+  FLATRATE
+  CALCULATED
+}
+
+type ShippingOption {
+  id: ID!
+  admin_only: Boolean
+  amount: Float
+  data: String
+  includes_tax: Boolean
+  is_return: Boolean
+  metadata: String
+  name: String!
+  price_type: ShippingOptionPriceType!
+  profile_id: ID!
+  profile: ShippingProfile
+  provider_id: ID!
+  provider: FulfillmentProvider
+  region_id: ID!
+  region: Region
+  requirements: [ShippingOptionRequirement!]!
+}
+
+enum ShippingProfileType {
+  CUSTOM
+  DEFAULT
+  GIFTCARD
+}
+
+type ShippingProfile {
+  id: ID!
+  metadata: String
+  name: String!
+  products: [Product!]!
+  shipping_options: [ShippingOption!]!
+  type: ShippingProfileType!
+}
+
+type Store {
+  id: ID
+  created_at: String
+  currencies: [Currency!]!
+  default_currency: Currency
+  default_currency_code: String
+  default_sales_channel: SalesChannel
+  default_sales_channel_id: String
+  invite_link_template: String
+  metadata: String
+  name: String
+  payment_link_template: String
+  swap_link_template: String
+  updated_at: String
+}
+
+input AddCurrencyCodeInput {
+  code: String
+}
+
+input DeleteCurrencyCodeInput {
+  code: String
+}
+
+input UpdateStoreInput {
+  name: String
+  swap_link_template: String
+  payment_link_template: String
+  invite_link_template: String
+  default_currency_code: String
+  currencies: [String]
+  metadata: String
+}
+
+enum SwapFulfillmentStatus {
+  CANCELED
+  FULFILLED
+  NOTFULFILLED
+  PARTIALLYSHIPPED
+  REQUIRESACTION
+  SHIPPED
+}
+
+enum SwapPaymentStatus {
+  AWAITING
+  CANCELED
+  CAPTURED
+  CONFIRMED
+  DIFFERENCEREFUNDED
+  NOTPAID
+  PARTIALLYREFUNDED
+  REFUNDED
+  REQUIRESACTION
+}
+
+input AdditionalItemsInput {
+  quantity: Int
+  variant_id: ID
+}
+
+input CreateSwapInput {
+  additional_items: [AdditionalItemsInput!]!
+  order_id: ID!
+  return_items: [ReturnItemsInput!]!
+  return_shipping_option: String
+}
+
+input GetByCartIdInput {
+  cart_id: ID!
+}
+
+input ReturnItemsInput {
+  item_id: ID!
+  note: String
+  quantity: Int!
+  reason_id: ID
+}
+
+type Swap {
+  id: ID!
+  additional_items: [LineItem]
+  allow_backorder: Boolean
+  canceled_at: String
+  cart_id: ID
+  cart: Cart
+  confirmed_at: String
+  difference_due: Float
+  fulfillments: [Fulfillment!]!
+  fulfillment_status: SwapFulfillmentStatus!
+  idempotency_key: String
+  metadata: String
+  no_notification: Boolean
+  order_id: ID!
+  order: Order
+  payment: Payment
+  payment_status: SwapPaymentStatus!
+  return_order: Return
+  shipping_address_id: ID
+  shipping_address: Address
+  shipping_methods: [ShippingMethod!]!
+}
+
+type TaxProvider {
+  id: ID
+  is_installed: Boolean
+}
+
+type TrackingLink {
+  id: ID!
+  fulfillment_id: ID!
+  idempotency_key: String
+  metadata: String
+  tracking_number: String!
+  url: String
+}
+
+enum UserRole {
+  ADMIN
+  MEMBER
+  DEVELOPER
+}
+
+type User {
+  id: ID!
+  api_token: String
+  created_at: String
+  deleted_at: String
+  email: String
+  first_name: String
+  last_name: String
+  metadata: String
+  role: UserRole
+  updated_at: String
+}
+
+input CreateUserInput {
+  email: String!
+  password: String!
+  first_name: String
+  last_name: String
+  role: UserRole
+}
+
+input DeleteUserInput {
+  id: ID!
+}
+
+input UpdateUserInput {
+  id: ID!
+  first_name: String
+  last_name: String
+  role: UserRole
+  api_token: String
+  metadata: String
+}
+
+input RequestPasswordResetInput {
+  email: String!
+}

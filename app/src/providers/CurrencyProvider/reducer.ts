@@ -2,7 +2,7 @@ import { useReducer } from 'react'
 import { Sentry } from '../../services/sentry'
 import { config } from '../../config'
 
-const { EXCHANGE_RATE_API_KEY } = config
+// const { EXCHANGE_RATE_API_KEY } = config
 
 interface State {
   loading: boolean

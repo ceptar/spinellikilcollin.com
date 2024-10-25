@@ -1,92 +1,66 @@
 import * as React from 'react'
-import { unwindEdges } from '@good-idea/unwind-edges'
-import {
-  useCheckout,
-  UseCheckoutValues,
-  UseCheckoutQueries,
-  UseCheckoutConfig,
-} from './useCheckout'
+import { useMedusa } from '../MedusaProvider/MedusaProvider'
+import { useMedusaCheckout } from '../MedusaProvider/MedusaCheckoutProvider'
 import { useAnalytics } from '../AnalyticsProvider'
-import { QueryFunction } from './types'
-import { config } from '../../config'
 
-const { SHOPIFY_CHECKOUT_DOMAIN: domain } = config
-
-export interface ShopifyContextValue extends UseCheckoutValues {
+export interface ShopifyContextValue {
+  cart: any
+  checkout: any
   goToCheckout: () => void
+  addLineItem: (variantId: string, quantity: number) => Promise<void>
+  removeLineItem: (lineId: string) => Promise<void>
 }
 
-export const ShopifyContext = React.createContext<
-  ShopifyContextValue | undefined
->(undefined)
+export const ShopifyContext = React.createContext<ShopifyContextValue | undefined>(undefined)
 
 export const ShopifyConsumer = ShopifyContext.Consumer
 
 export const useShopify = () => {
   const ctx = React.useContext(ShopifyContext)
-  if (!ctx)
-    throw new Error('`useShopify` must be used within a ShopifyProvider')
+  if (!ctx) return useMedusa() // Fallback to Medusa context if Shopify context is not available
   return ctx
 }
 
-type CustomQueries = Partial<UseCheckoutQueries>
-
 interface Props {
   children: React.ReactNode
-  query: QueryFunction
-  queries?: CustomQueries
-  config?: {
-    checkout: Partial<UseCheckoutConfig>
-  }
 }
 
-const defaultConfig = {
-  checkout: undefined,
-}
-
-export const ShopifyProvider = ({
-  children,
-  queries,
-  query,
-  config: userConfig,
-}: Props) => {
+export const ShopifyProvider = ({ children }: Props) => {
   const { sendBeginCheckout } = useAnalytics()
-  const config = {
-    ...defaultConfig,
-    ...userConfig,
-  }
+  const { cart, addLineItem, removeLineItem } = useMedusa()
+  const { checkout, createCheckout } = useMedusaCheckout()
 
-  const useCheckoutValues = useCheckout({
-    queries,
-    query,
-    config: config.checkout ? config.checkout : undefined,
-  })
-
-  const goToCheckout = () => {
-    const { checkout } = useCheckoutValues
+  const goToCheckout = async () => {
     if (!checkout) {
-      throw new Error('No checkout has been initiated')
+      await createCheckout()
     }
-    const [lineItems] = unwindEdges(checkout.lineItems)
-    /* Send the analytics event */
-    sendBeginCheckout(
-      lineItems.map((li) => ({
-        product: li.variant?.product,
-        variant: li.variant,
-        quantity: li.quantity,
-      })),
-    )
-    const { protocol, pathname, search } = new URL(checkout.webUrl)
-    const redirect: string = `${protocol}//${domain}${pathname}${search}`
-    window.location.href = redirect
+    
+    // Send analytics event
+    if (cart?.items) {
+      sendBeginCheckout(
+        cart.items.map((item: any) => ({
+          product: item.variant?.product,
+          variant: item.variant,
+          quantity: item.quantity,
+        }))
+      )
+    }
+
+    // Redirect to Medusa checkout
+    window.location.href = checkout?.url || '/checkout'
   }
 
   const value = {
-    ...useCheckoutValues,
+    cart,
+    checkout,
     goToCheckout,
+    addLineItem,
+    removeLineItem,
   }
 
   return (
-    <ShopifyContext.Provider value={value}>{children}</ShopifyContext.Provider>
+    <ShopifyContext.Provider value={value}>
+      {children}
+    </ShopifyContext.Provider>
   )
 }

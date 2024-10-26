@@ -77,12 +77,12 @@ export const Inner = styled.div<WithBorder>`
 
     ${theme.mediaQueries.tablet} {
       padding: 5 0 3;
-      grid-template-columns: 1fr 230px 1fr;
+      grid-template-columns: 1fr 250px 1fr;
       max-width: calc(100% - (${theme.space[7]}px * 2));
     }
 
     ${theme.mediaQueries.mobile} {
-      grid-template-columns: 80px 1fr 80px;
+      grid-template-columns: 1fr 150px 1fr;
       max-width: calc(100% - (${theme.space[4]}px * 2));
     }
   `}
@@ -168,16 +168,19 @@ interface WithColor {
 
 export const LogoWrapper = styled.div<WithColor>`
   ${({ theme, colorTheme }) => css`
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
 
-    align-items: center;
     img {
 object-fit: cover;
-
+                ...{ maxHeight: '60px', display: 'flex', maxWidth: '150px' },
     }
 
     svg {
 object-fit: cover;
-
+                ...{ maxHeight: '60px', display: 'flex', maxWidth: '150px' },
       ${colorTheme == 'light' ? `path { fill: ${theme.colors.grays[3]}; }` : ''}
     }
   `}
@@ -191,6 +194,10 @@ export const NavHeader = styled.button`
     color: inherit;
     text-decoration: none;
     transition: 0.2s;
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
   `}
 `
 

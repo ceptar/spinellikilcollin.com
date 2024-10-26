@@ -1,6 +1,6 @@
 import {SHOPIFY_STORE_ID} from '../constants'
 
-const storeUrl = `http://212.132.115.241:9000`
+const storeUrl = `http://212.132.115.241:4000/graphql`
 
 export const collectionUrl = (collectionId: number) => {
   if (!SHOPIFY_STORE_ID) {

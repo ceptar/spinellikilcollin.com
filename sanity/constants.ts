@@ -1,7 +1,7 @@
 // Currency code (ISO 4217) to use when displaying prices in the studio
 
 // https://en.wikipedia.org/wiki/ISO_4217
-export const DEFAULT_CURRENCY_CODE = 'USD'
+export const DEFAULT_CURRENCY_CODE = 'EUR'
 
 // Document types which:
 // - cannot be created in the 'new document' menu
@@ -51,4 +51,4 @@ export const SANITY_API_VERSION = 'v2023-08-01'
 // Your Shopify store ID.
 // This is your unique store (e.g. 'my-store-name' in the complete URL of 'https://admin.shopify.com/store/my-store-name/').
 // Set this to enable helper links in document status banners and shortcut links on products and collections.
-export const SHOPIFY_STORE_ID = 'http://212.132.115.241:9000'
+export const SHOPIFY_STORE_ID = 'http://212.132.115.241:4000/graphql'

@@ -132,7 +132,7 @@ export const Image = ({
   richImage,
   draggable = true,
 }: ImageProps) => {
-  const sizes = customSizes || '100vw'
+  const sizes = customSizes || '200vw'
   const [loaded, setLoaded] = React.useState(false)
   const containerRef = React.useRef<HTMLDivElement>(null)
   const imageRef = React.useRef<HTMLImageElement>(null)

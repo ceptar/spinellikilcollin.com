@@ -168,10 +168,8 @@ interface WithColor {
 
 export const LogoWrapper = styled.div<WithColor>`
   ${({ theme, colorTheme }) => css`
-    justify-content: center;
-    align-items: center;
-    max-width: 250px;
 
+    align-items: center;
     img {
 object-fit: cover;
 

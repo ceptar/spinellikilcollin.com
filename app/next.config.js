@@ -51,7 +51,7 @@ module.exports = withSourceMaps({
     defaultLocale: 'en',
   },
   images: {
-    domains: ['cdn.shopify.com'],
+    domains: ['discobabes.store'],
   },
   experimental: {
     scrollRestoration: true,

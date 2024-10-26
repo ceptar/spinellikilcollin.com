@@ -43,7 +43,7 @@ export const PageLink = ({ ctaType, pageLink, index, href }: PageLinkProps) => {
               <Image
                 image={image}
                 ratio={0.75}
-                sizes="(min-width: 600px) 100vw, 600px"
+                sizes="(min-width: 600px) 200vw, 600px"
               />
             </a>
           </ImageWrapper>
@@ -92,7 +92,7 @@ export const PageLink = ({ ctaType, pageLink, index, href }: PageLinkProps) => {
               <Image
                 image={image}
                 ratio={0.75}
-                sizes="(min-width: 600px) 100vw, 600px"
+                sizes="(min-width: 600px) 200vw, 600px"
               />
             </Link>
           </ImageWrapper>

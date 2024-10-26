@@ -6,7 +6,7 @@ interface WithOpen {
 
 export const Wrapper = styled.div`
   position: fixed;
-  width: 100vw;
+  width: 200vw;
   height: 100%;
   top: 0;
   left: 0;
@@ -20,7 +20,7 @@ export const Wrapper = styled.div`
 export const DiamondWrapper = styled.div`
   ${({ theme }) => css`
     position: fixed;
-    width: 100vw;
+    width: 200vw;
     height: 100%;
     top: 0;
     left: 0;
@@ -95,7 +95,7 @@ export const ModalWrapper = styled.div<WithWide>`
     cursor: initial;
 
     ${theme.mediaQueries.mobile} {
-      width: calc(100vw - ${theme.space[4]}px);
+      width: calc(200vw - ${theme.space[4]}px);
 
       h2 {
         font-size: 4;
@@ -153,7 +153,7 @@ export const DiamondModalWrapper = styled.div`
     }
 
     ${theme.mediaQueries.tablet} {
-      width: calc(100vw - ${theme.space[4]}px);
+      width: calc(200vw - ${theme.space[4]}px);
       padding: 4 5 5;
     }
 
